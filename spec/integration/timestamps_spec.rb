@@ -163,18 +163,18 @@ describe 'DataMapper::Timestamp' do
           @klass.timestamps :at
 
           @klass.properties.should be_named(:created_at)
-          @klass.properties[:created_at].type.should == DateTime
+          @klass.properties[:created_at].should be_kind_of(DataMapper::Property::DateTime)
           @klass.properties.should be_named(:updated_at)
-          @klass.properties[:updated_at].type.should == DateTime
+          @klass.properties[:updated_at].should be_kind_of(DataMapper::Property::DateTime)
         end
 
         it "should set the *on properties" do
           @klass.timestamps :on
 
           @klass.properties.should be_named(:created_on)
-          @klass.properties[:created_on].type.should == Date
+          @klass.properties[:created_on].should be_kind_of(DataMapper::Property::Date)
           @klass.properties.should be_named(:updated_on)
-          @klass.properties[:updated_on].type.should == Date
+          @klass.properties[:updated_on].should be_kind_of(DataMapper::Property::Date)
         end
 
         it "should set multiple properties" do
