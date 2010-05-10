@@ -1,7 +1,9 @@
 require 'spec_helper'
 
-if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
-  describe 'DataMapper::Timestamp' do
+describe 'DataMapper::Timestamp' do
+
+  supported_by :all do
+
     describe "Timestamp (shared behavior)", :shared => true do
       it "should not set the created_at/on fields if they're already set" do
         green_smoothie = GreenSmoothie.new(:name => 'Banana')
@@ -127,6 +129,24 @@ if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
       it_should_behave_like "Timestamp (shared behavior)"
     end
 
+    describe "implicit property declaration" do
+      before do
+        Object.send(:remove_const, :GreenSmoothie) if defined?(GreenSmoothie)
+        class GreenSmoothie
+          include DataMapper::Resource
+
+          property :id,   Serial
+          property :name, String
+
+          timestamps :at, :on
+
+          auto_migrate!
+        end
+      end
+
+      it_should_behave_like "Timestamp (shared behavior)"
+    end
+
     describe "timestamps helper" do
       describe "inclusion" do
         before :each do
@@ -172,24 +192,8 @@ if HAS_SQLITE3 || HAS_MYSQL || HAS_POSTGRES
           lambda { @klass.timestamps }.should raise_error(ArgumentError)
         end
       end
-
-      describe "behavior" do
-        before do
-          Object.send(:remove_const, :GreenSmoothie) if defined?(GreenSmoothie)
-          class GreenSmoothie
-            include DataMapper::Resource
-
-            property :id,   Serial
-            property :name, String
-
-            timestamps :at, :on
-
-            auto_migrate!
-          end
-        end
-
-        it_should_behave_like "Timestamp (shared behavior)"
-      end
     end
+
   end
+
 end
