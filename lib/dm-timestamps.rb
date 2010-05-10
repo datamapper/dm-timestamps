@@ -42,8 +42,13 @@ module DataMapper
         names.each do |name|
           case name
             when *TIMESTAMP_PROPERTIES.keys
-              type = TIMESTAMP_PROPERTIES[name].first
-              property name, type, :required => true, :auto_validation => false
+              options = { :required => true }
+
+              if Property.accepted_options.include?(:auto_validation)
+                options.update(:auto_validation => false)
+              end
+
+              property name, TIMESTAMP_PROPERTIES[name].first, options
             when :at
               timestamps(:created_at, :updated_at)
             when :on

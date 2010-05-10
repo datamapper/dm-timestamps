@@ -117,10 +117,10 @@ describe 'DataMapper::Timestamp' do
 
           property :id,         Serial
           property :name,       String
-          property :created_at, DateTime, :required => true, :auto_validation => false
-          property :created_on, Date,     :required => true, :auto_validation => false
-          property :updated_at, DateTime, :required => true, :auto_validation => false
-          property :updated_on, Date,     :required => true, :auto_validation => false
+          property :created_at, DateTime, :required => true
+          property :created_on, Date,     :required => true
+          property :updated_at, DateTime, :required => true
+          property :updated_on, Date,     :required => true
 
           auto_migrate!
         end
