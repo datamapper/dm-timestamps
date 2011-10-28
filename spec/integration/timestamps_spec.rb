@@ -8,7 +8,7 @@ describe 'DataMapper::Timestamp' do
       it "should not set the created_at/on fields if they're already set" do
         green_smoothie = GreenSmoothie.new(:name => 'Banana')
         time = (DateTime.now - 100)
-        date = time.to_date
+        date = Date.new(time.year,time.month,time.day)
         green_smoothie.created_at = time
         green_smoothie.created_on = date
         green_smoothie.save
